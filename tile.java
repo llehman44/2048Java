@@ -1,19 +1,7 @@
-import javax.swing.*;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 
+public class tile {
 
-public class tile extends JLabel {
-
-    int x;
-    int y;
     String tileVal;
     int tileInt;
     int tileNum;
@@ -23,15 +11,8 @@ public class tile extends JLabel {
     
 
     public tile(int num) {
-    
-       
-        // (max - min + 1) + min
         this.tileNum = num + 1;
         this.tileInt = 0;
-        
-       
-        
-       
     }
 
     public String gettileVal() {
@@ -39,15 +20,12 @@ public class tile extends JLabel {
     }
 
     public int gettileNum() {
-
         return tileNum;
-
     }
 
     public void update() {
         if (tileInt == 0){
             tileInt = 2;
-            
         }
         else{
             hasMerged = true;
@@ -60,13 +38,11 @@ public class tile extends JLabel {
     }
 
     public String toString(){
-
         tileVal = Integer.toString(tileInt);
         return tileVal;
     }
     
     public boolean isUsed(){
-        
         if(tileInt > 0){
             used = true;
         }
