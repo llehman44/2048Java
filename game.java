@@ -84,22 +84,30 @@ public class game {
     }
 
     public static void moveleft() {
-        int row = gameSize - 3;
-        int k = gameSize - 3;
+        int row = gameSize - 1;
+        int k = gameSize - 1;
         int count = 0;
 
-        for (int j = 0; j < gameSize+1; j++) {
+        for (int j = 0; j < gameSize; j++) {
 
-                
-                while (piece.get(row).tileInt != 0 && piece.get(row - 1).tileInt == 0) {
+            for (int i = 0; i < 30; i++) { // no idea how many times this loop has to run
+                if (row < k - (gameSize - 2)) {  //does something with how far tile moves
+                    row = k;
+                    
+                }
+                if (piece.get(row).tileInt != 0 && piece.get(row - 1).tileInt == 0) {
                     piece.get(row - 1).tileInt = piece.get(row).tileInt;
                     piece.get(row).tileInt = 0;
+                    count++;
                     print();
                 }
-                
-            row++;
-        }
+                row--;
 
+            }
+            k = k + gameSize;
+            row = k;
+        }
+        System.out.println(count);
     }
 
     public static void moveRight() {
