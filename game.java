@@ -5,24 +5,32 @@ import java.util.Scanner;
 public class game {
 
     public static ArrayList<tile> piece = new ArrayList<tile>();
+    public static int gameSize;
+    public static boolean debug = false;
 
     public static void main(String[] args) {
-        gui one = new gui();
+        gameSize = 4;
+
+        window Window = new window();
 
         Scanner scanner = new Scanner(System.in);
         String input;
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < (gameSize * gameSize); i++) {
             piece.add(new tile(i));
 
         }
 
-        createTile();
-        createTile();
+        if (!debug) {
+            createTile();
+            createTile();
+        } else {
+            createTest();
+        }
 
-        one.printGui();
+        Window.printGui();
         print();
-        one.setVisible(true);
+
         for (;;) {
             input = scanner.nextLine();
             if (input.equals("a")) {
@@ -48,45 +56,48 @@ public class game {
                 System.exit(0);
             }
 
-            one.printGui();
+            Window.printGui();
             try {
                 Thread.sleep(500); // 1000 milliseconds is one second.
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
 
-            createTile();
+            if (!debug) {
+                createTile();
+            }
 
             print();
-            one.printGui();
+            Window.printGui();
 
-            for (int j = 0; j < 16; j++) {
+            for (int j = 0; j < (gameSize * gameSize); j++) {
                 piece.get(j).hasMerged = false;
             }
         }
 
     }
 
+    public static void createTest() {
+        piece.get(2).update(2);
+        piece.get(3).update(4);
+        piece.get(4).update(4);
+    }
+
     public static void moveleft() {
-        int row = 3;
-        int k = 3;
+        int row = gameSize - 3;
+        int k = gameSize - 3;
+        int count = 0;
 
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < gameSize+1; j++) {
 
-            for (int i = 0; i < 10; i++) { // no idea how many times this loop has to run
-                if (row < k - 2) {
-                    row = k;
-                }
-                if (piece.get(row).tileInt != 0 && piece.get(row - 1).tileInt == 0) {
+                
+                while (piece.get(row).tileInt != 0 && piece.get(row - 1).tileInt == 0) {
                     piece.get(row - 1).tileInt = piece.get(row).tileInt;
                     piece.get(row).tileInt = 0;
-
+                    print();
                 }
-                row--;
-
-            }
-            k = k + 4;
-            row = k;
+                
+            row++;
         }
 
     }
@@ -161,11 +172,11 @@ public class game {
     }
 
     public static void combineleft() {
-        int row = 3;
-        int k = 3;
+        int row = gameSize - 1;
+        int k = gameSize - 1;
 
-        for (int j = 0; j < 4; j++) {
-            while (row > k - 3) {
+        for (int j = 0; j < gameSize; j++) {
+            while (row > k - (gameSize - 1)) {
                 if (piece.get(row).hasMerged == false) {
                     if (piece.get(row).tileInt == piece.get(row - 1).tileInt && piece.get(row).tileInt > 0) {
                         piece.get(row - 1).update();
@@ -178,7 +189,7 @@ public class game {
 
                 row--;
             }
-            k = k + 4;
+            k = k + gameSize;
             row = k;
         }
         moveleft();
@@ -283,9 +294,9 @@ public class game {
     public static void print() {
         System.out.println('\n');
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < (gameSize * gameSize); i++) {
             System.out.printf("%s   ", piece.get(i));
-            if ((i + 1) % 4 == 0 && i != 15) {
+            if ((i + 1) % gameSize == 0 && i != (gameSize * gameSize) - 1) {
                 System.out.println("\n");
             }
         }
