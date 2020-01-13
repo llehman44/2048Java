@@ -7,7 +7,6 @@ public class tile {
     int tileNum;
     int position;
     boolean used;
-    boolean hasMerged;
     
 
     public tile(int num) {
@@ -28,8 +27,7 @@ public class tile {
             tileInt = 2;
         }
         else{
-            hasMerged = true;
-            tileInt = tileInt *2;
+            tileInt = tileInt * 2;
         }
     }
 

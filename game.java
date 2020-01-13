@@ -9,10 +9,8 @@ public class game {
     public static boolean debug = false;
 
     public static void main(String[] args) {
-        gameSize = 4;
-
+        gameSize = 5;
         window Window = new window();
-
         Scanner scanner = new Scanner(System.in);
         String input;
 
@@ -36,21 +34,25 @@ public class game {
             if (input.equals("a")) {
                 moveleft();
                 combineleft();
+                moveleft();
             }
 
             else if (input.equals("d")) {
                 moveRight();
                 combineRight();
+                moveRight();
             }
 
             else if (input.equals("w")) {
                 moveUp();
                 combineUp();
+                moveUp();
             }
 
             else if (input.equals("s")) {
                 moveDown();
                 combineDown();
+                moveDown();
             } else if (input.equals("quit")) {
                 scanner.close();
                 System.exit(0);
@@ -70,217 +72,187 @@ public class game {
             print();
             Window.printGui();
 
-            for (int j = 0; j < (gameSize * gameSize); j++) {
-                piece.get(j).hasMerged = false;
-            }
         }
 
     }
 
     public static void createTest() {
-        piece.get(2).update(2);
-        piece.get(3).update(4);
-        piece.get(4).update(4);
+        // piece.get(0).update(2);          //used to add specific tiles to board if debug boolean is true
+        // piece.get(1).update(2);
+        // piece.get(3).update(4);
+        // piece.get(4).update(4);
     }
 
     public static void moveleft() {
-        int row = gameSize - 1;
-        int k = gameSize - 1;
-        int count = 0;
+        int tile = gameSize - (gameSize - 1); // 1
+        int row = gameSize - (gameSize - 1);
 
-        for (int j = 0; j < gameSize; j++) {
+        for (int i = 0; i < gameSize; i++) {
+            for (int x = 0; x < gameSize; x++) {
 
-            for (int i = 0; i < 30; i++) { // no idea how many times this loop has to run
-                if (row < k - (gameSize - 2)) {  //does something with how far tile moves
-                    row = k;
-                    
+                for (int y = 0; y < gameSize; y++) {
+                    if (tile == row + (gameSize - 1)) { // == 4
+                        break;
+                    } else if (piece.get(tile).tileInt != 0 && piece.get(tile - 1).tileInt == 0) {
+                        piece.get(tile - 1).tileInt = piece.get(tile).tileInt;
+                        piece.get(tile).tileInt = 0;
+                    }
+                    tile++;
                 }
-                if (piece.get(row).tileInt != 0 && piece.get(row - 1).tileInt == 0) {
-                    piece.get(row - 1).tileInt = piece.get(row).tileInt;
-                    piece.get(row).tileInt = 0;
-                    count++;
-                    print();
-                }
-                row--;
-
+                tile = row;
             }
-            k = k + gameSize;
-            row = k;
+            row += gameSize;
+            tile = row;
         }
-        System.out.println(count);
+
     }
 
     public static void moveRight() {
+        int tile = gameSize - 2; // 2
+        int row = gameSize - 2;
 
-        int row = 0;
-        int k = 0;
+        for (int i = 0; i < gameSize; i++) {
+            for (int x = 0; x < gameSize; x++) {
 
-        for (int j = 0; j < 4; j++) {
+                for (int y = 0; y < gameSize; y++) {
+                    if (tile == row - (gameSize - 1)) {
+                        break;
+                    } else if (piece.get(tile).tileInt != 0 && piece.get(tile + 1).tileInt == 0) {
+                        piece.get(tile + 1).tileInt = piece.get(tile).tileInt;
+                        piece.get(tile).tileInt = 0;
+                    }
+                    tile--;
 
-            for (int i = 0; i < 20; i++) {
-                if (row > k + 2) {
-                    row = k;
                 }
-                if (piece.get(row).tileInt != 0 && piece.get(row + 1).tileInt == 0) {
-                    piece.get(row + 1).tileInt = piece.get(row).tileInt;
-                    piece.get(row).tileInt = 0;
-
-                }
-                row++;
+                tile = row;
             }
-            k = k + 4;
-            row = k;
+            row += gameSize;
+            tile = row;
         }
     }
 
     public static void moveUp() {
 
-        int row = 12;
-        int k = 12;
+        int tile = gameSize; // 4
+        int row = gameSize;
 
-        for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < gameSize; i++) {
+            for (int x = 0; x < gameSize; x++) {
 
-            for (int i = 0; i < 20; i++) {
-                if (row < k - 8) {
-                    row = k;
+                for (int y = 0; y < gameSize; y++) {
+                    if (tile == row + (gameSize * (gameSize - 1))) { // 5 to 25 4 to 16
+                        break;
+                    }
+
+                    else if (piece.get(tile).tileInt != 0 && piece.get(tile - gameSize).tileInt == 0) {
+                        piece.get(tile - gameSize).tileInt = piece.get(tile).tileInt;
+                        piece.get(tile).tileInt = 0;
+                      
+                    }
+                    tile += gameSize;
+
                 }
-                if (piece.get(row).tileInt != 0 && piece.get(row - 4).tileInt == 0) {
-                    piece.get(row - 4).tileInt = piece.get(row).tileInt;
-                    piece.get(row).tileInt = 0;
-
-                }
-                row = row - 4;
+                tile = row;
             }
-            k = k + 1;
-            row = k;
+            row++;
+            tile = row;
         }
     }
 
     public static void moveDown() {
 
-        int row = 0;
-        int k = 0;
+        int tile = gameSize * (gameSize - 2);
+        int row = gameSize * (gameSize - 2);
 
-        for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < gameSize; i++) {
+            for (int x = 0; x < gameSize; x++) {
 
-            for (int i = 0; i < 20; i++) {
-                if (row > k + 8) {
-                    row = k;
+                for (int y = 0; y < gameSize; y++) {
+                    if (tile < 0) { // 8 to 0, 9 to 1 /// 15 to 0, 16 to 1
+                        break;
+                    }
+
+                    else if (piece.get(tile).tileInt != 0 && piece.get(tile + gameSize).tileInt == 0) {
+                        piece.get(tile + gameSize).tileInt = piece.get(tile).tileInt;
+                        piece.get(tile).tileInt = 0;
+
+                    }
+                    tile -= gameSize;
+
                 }
-                if (piece.get(row).tileInt != 0 && piece.get(row + 4).tileInt == 0) {
-                    piece.get(row + 4).tileInt = piece.get(row).tileInt;
-                    piece.get(row).tileInt = 0;
-
-                }
-                row = row + 4;
+                tile = row;
             }
-            k = k + 1;
-            row = k;
+            row++;
+            tile = row;
         }
     }
 
     public static void combineleft() {
-        int row = gameSize - 1;
-        int k = gameSize - 1;
+        int tile = 0; 
+        int row =  0;
 
-        for (int j = 0; j < gameSize; j++) {
-            while (row > k - (gameSize - 1)) {
-                if (piece.get(row).hasMerged == false) {
-                    if (piece.get(row).tileInt == piece.get(row - 1).tileInt && piece.get(row).tileInt > 0) {
-                        piece.get(row - 1).update();
-                        piece.get(row).tileInt = 0;
-                    }
-
-                } else {
-
+        for (int i = 0; i < gameSize; i++) {
+            for (int x = 0; x < gameSize - 1; x++) {
+                if(piece.get(tile).tileInt != 0 && piece.get(tile).tileInt == piece.get(tile + 1).tileInt){
+                    piece.get(tile).update();
+                    piece.get(tile + 1).tileInt = 0;
                 }
-
-                row--;
+                tile++;
             }
-            k = k + gameSize;
-            row = k;
+            row += gameSize;
+            tile = row;
         }
-        moveleft();
     }
 
     public static void combineRight() {
-        int row = 0;
-        int k = 0;
+        int tile = gameSize - 1; 
+        int row =  gameSize - 1; 
 
-        for (int j = 0; j < 4; j++) {
-            while (row < k + 3) {
-
-                if (piece.get(row).hasMerged == false) {
-                    if (piece.get(row).tileInt == piece.get(row + 1).tileInt && piece.get(row).tileInt > 0) {
-                        piece.get(row + 1).update();
-                        piece.get(row).tileInt = 0;
-
-                    }
-
-                } else {
-
+        for (int i = 0; i < gameSize; i++) {
+            for (int x = 0; x < gameSize - 1; x++) {
+                if(piece.get(tile).tileInt != 0 && piece.get(tile).tileInt == piece.get(tile - 1).tileInt){
+                    piece.get(tile).update();
+                    piece.get(tile - 1).tileInt = 0;
                 }
-
-                row++;
+                tile--;
             }
-            k = k + 4;
-            row = k;
+            row += gameSize;
+            tile = row;
         }
-        moveRight();
-
     }
 
     public static void combineUp() {
-        int row = 12;
-        int k = 12;
+        int tile = 0; 
+        int row =  0;
 
-        for (int j = 0; j < 4; j++) {
-            while (row > k - 9) {
-
-                if (piece.get(row).hasMerged == false) {
-                    if (piece.get(row).tileInt == piece.get(row - 4).tileInt && piece.get(row).tileInt > 0) {
-                        piece.get(row - 4).update();
-                        piece.get(row).tileInt = 0;
-
-                    }
-
-                } else {
-
+        for (int i = 0; i < gameSize; i++) {
+            for (int x = 0; x < gameSize - 1; x++) {
+                if(piece.get(tile).tileInt != 0 && piece.get(tile).tileInt == piece.get(tile + gameSize).tileInt){
+                    piece.get(tile).update();
+                    piece.get(tile + gameSize).tileInt = 0;
                 }
-
-                row = row - 4;
+                tile += gameSize;
             }
-            k = k + 1;
-            row = k;
+            row++;
+            tile = row;
         }
-        moveUp();
-
     }
 
     public static void combineDown() {
-        int row = 0;
-        int k = 0;
+        int tile = gameSize * (gameSize -1); 
+        int row =  gameSize * (gameSize -1); 
 
-        for (int j = 0; j < 4; j++) {
-            while (row < k + 9) {
-
-                if (piece.get(row).hasMerged == false) {
-                    if (piece.get(row).tileInt == piece.get(row + 4).tileInt && piece.get(row).tileInt > 0) {
-                        piece.get(row + 4).update();
-                        piece.get(row).tileInt = 0;
-
-                    }
-
-                } else {
-
+        for (int i = 0; i < gameSize; i++) {
+            for (int x = 0; x < gameSize - 1; x++) {
+                if(piece.get(tile).tileInt != 0 && piece.get(tile).tileInt == piece.get(tile - gameSize).tileInt){
+                    piece.get(tile).update();
+                    piece.get(tile - gameSize).tileInt = 0;
                 }
-
-                row = row + 4;
+                tile -= gameSize;
             }
-            k = k + 1;
-            row = k;
+            row++;
+            tile = row;
         }
-        moveDown();
 
     }
 
@@ -288,13 +260,13 @@ public class game {
         boolean done = false;
         int rando = 0;
         Random rand = new Random();
-        rando = rand.nextInt(15);
+        rando = rand.nextInt((gameSize * gameSize) - 1);
         while (!done) {
             if (piece.get(rando).isUsed() == false) {
                 piece.get(rando).update();
                 done = true;
             } else {
-                rando = rand.nextInt(15);
+                rando = rand.nextInt((gameSize * gameSize) - 1);
             }
         }
     }
