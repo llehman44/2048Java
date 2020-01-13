@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+
 public class game {
 
     public static ArrayList<tile> piece = new ArrayList<tile>();
@@ -9,10 +10,8 @@ public class game {
     public static boolean debug = false;
 
     public static void main(String[] args) {
-        gameSize = 5;
+        gameSize = 4;
         window Window = new window();
-        Scanner scanner = new Scanner(System.in);
-        String input;
 
         for (int i = 0; i < (gameSize * gameSize); i++) {
             piece.add(new tile(i));
@@ -28,51 +27,6 @@ public class game {
 
         Window.printGui();
         print();
-
-        for (;;) {
-            input = scanner.nextLine();
-            if (input.equals("a")) {
-                moveleft();
-                combineleft();
-                moveleft();
-            }
-
-            else if (input.equals("d")) {
-                moveRight();
-                combineRight();
-                moveRight();
-            }
-
-            else if (input.equals("w")) {
-                moveUp();
-                combineUp();
-                moveUp();
-            }
-
-            else if (input.equals("s")) {
-                moveDown();
-                combineDown();
-                moveDown();
-            } else if (input.equals("quit")) {
-                scanner.close();
-                System.exit(0);
-            }
-
-            Window.printGui();
-            try {
-                Thread.sleep(500); // 1000 milliseconds is one second.
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-
-            if (!debug) {
-                createTile();
-            }
-
-            print();
-            Window.printGui();
-
-        }
 
     }
 
