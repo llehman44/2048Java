@@ -1,4 +1,5 @@
 
+import java.util.Random;
 
 public class tile {
 
@@ -6,8 +7,7 @@ public class tile {
     int tileInt;
     int tileNum;
     int position;
-    boolean used;
-    
+    Random rando = new Random();
 
     public tile(int num) {
         this.tileNum = num + 1;
@@ -23,31 +23,27 @@ public class tile {
     }
 
     public void update() {
-        if (tileInt == 0){
-            tileInt = 2;
-        }
-        else{
+        if (tileInt == 0) {
+            if (rando.nextInt(10) + 1 > 9) {
+                tileInt = 4;
+            } else {
+                tileInt = 2;
+            }
+
+        } else {
             tileInt = tileInt * 2;
         }
+
     }
 
     public void update(int value) {
         tileInt = value;
+
     }
 
-    public String toString(){
+    public String toString() {
         tileVal = Integer.toString(tileInt);
         return tileVal;
-    }
-    
-    public boolean isUsed(){
-        if(tileInt > 0){
-            used = true;
-        }
-        else{
-            used = false;
-        }
-        return used;
     }
 
 }
